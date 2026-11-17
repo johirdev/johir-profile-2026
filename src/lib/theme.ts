@@ -1,4 +1,8 @@
 export const THEME_KEY = "jr-theme";
 
-/** Inlined in <head>: picks the saved theme (or the OS one) before paint. */
-export const THEME_SCRIPT = `(function(){try{var s=localStorage.getItem("${THEME_KEY}");var t=s==="light"||s==="dark"?s:(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");document.documentElement.setAttribute("data-theme",t)}catch(e){}})();`;
+/**
+ * Inlined in <head>: dark is the default for every visitor, regardless of
+ * the OS / browser preference. Light is used only if the visitor picked it
+ * with the toggle (saved in localStorage).
+ */
+export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("${THEME_KEY}")==="light"?"light":"dark";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();`;

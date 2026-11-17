@@ -286,9 +286,10 @@ function Stage({ role, index, accent }: { role: HeroRole; index: number; accent:
             animate={{ opacity: 1, x: 0, rotate: -2 }}
             exit={{ opacity: 0, x: -16, rotate: -4 }}
             transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
-            className="absolute left-0 -bottom-[2%] w-[50%] max-w-[220px] sm:bottom-[7%] overflow-hidden rounded-xl border border-white/10 bg-[#0b0b0e]/95 text-zinc-200 shadow-2xl backdrop-blur sm:-left-4"
+            className="absolute left-0 -bottom-[2%] w-[50%] max-w-[220px] sm:bottom-[7%] overflow-hidden rounded-xl border border-white/20 bg-zinc-950/30 text-zinc-50 shadow-[0_12px_40px_-18px_rgba(0,0,0,0.7)] ring-1 ring-inset ring-white/5 backdrop-blur-[3px] backdrop-saturate-150 [text-shadow:0_1px_2px_rgb(0_0_0/0.65)] sm:-left-4"
+            style={{ backgroundImage: `linear-gradient(135deg, ${accent}2e, transparent 60%)` }}
           >
-            <div className="flex items-center gap-1.5 border-b border-white/10 px-3 py-2">
+            <div className="flex items-center gap-1.5 border-b border-white/15 bg-white/[0.04] px-3 py-2">
               <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
@@ -303,7 +304,7 @@ function Stage({ role, index, accent }: { role: HeroRole; index: number; accent:
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.35 + i * 0.09 }}
                 >
-                  <span className="mr-3 select-none text-zinc-600">{i + 1}</span>
+                  <span className="mr-3 select-none text-white/40">{i + 1}</span>
                   <Colorize line={line} accent={accent} />
                 </motion.code>
               ))}

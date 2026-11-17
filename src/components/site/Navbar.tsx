@@ -53,17 +53,25 @@ export default function Navbar({ name, available }: { name: string; available?: 
       <nav
         aria-label="Main"
         className={`mx-auto flex max-w-site items-center justify-between gap-3 rounded-2xl border px-3 py-2 transition-all duration-500 sm:px-4 ${
-          scrolled ? "border-[rgb(var(--line)/0.1)] bg-bg/70 shadow-[0_10px_40px_-20px_rgb(0_0_0/0.5)] backdrop-blur-xl" : "border-transparent bg-transparent"
+          scrolled
+            ? "border-[rgb(var(--line)/0.1)] bg-bg/70 shadow-[0_10px_40px_-20px_rgb(0_0_0/0.5)] backdrop-blur-xl"
+            : "border-transparent bg-transparent"
         }`}
       >
-        <Link href="/" className="group flex items-center gap-2.5" aria-label={`${name.replace(/^Md\.?\s*/i, "")} — home`}>
+        <Link
+          href="/"
+          className="group flex items-center gap-2.5"
+          aria-label={`${name.replace(/^Md\.?\s*/i, "")} — home`}
+        >
           <span className="relative">
             <LogoMark className="h-10 w-10 transition-transform duration-300 group-hover:scale-105" />
-            {available && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-bg bg-emerald-500" />}
           </span>
           <span className="hidden text-sm font-semibold leading-tight sm:block">
             {name.replace(/^Md\.?\s*/i, "")}
-            <span className="block font-mono text-[10.5px] font-normal text-muted"><span className="text-accent-ink">&lt;</span>SoftwareEngineer <span className="text-accent-ink">/&gt;</span></span>
+            <span className="block font-mono text-[10.5px] font-normal text-muted">
+              <span className="">&lt;</span>SoftwareEngineer{" "}
+              <span className="">/&gt;</span>
+            </span>
           </span>
         </Link>
 
@@ -75,7 +83,11 @@ export default function Navbar({ name, available }: { name: string; available?: 
                 className={`relative block rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${isActive(l) ? "text-bg" : "text-soft hover:text-fg"}`}
               >
                 {isActive(l) && (
-                  <motion.span layoutId="nav-pill" className="absolute inset-0 -z-0 rounded-full bg-fg" transition={{ type: "spring", stiffness: 380, damping: 32 }} />
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 -z-0 rounded-full bg-fg"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
                 )}
                 <span className="relative">{l.label}</span>
               </Link>
@@ -85,7 +97,10 @@ export default function Navbar({ name, available }: { name: string; available?: 
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Link href="/#contact" className="btn-primary hidden !px-4 !py-2.5 sm:inline-flex">
+          <Link
+            href="/#contact"
+            className="btn-primary hidden !px-4 !py-2.5 sm:inline-flex"
+          >
             Hire me <ArrowUpRight className="h-4 w-4" />
           </Link>
           <button
@@ -111,7 +126,12 @@ export default function Navbar({ name, available }: { name: string; available?: 
           >
             <ul className="grid gap-1">
               {LINKS.map((l, i) => (
-                <motion.li key={l.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}>
+                <motion.li
+                  key={l.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                >
                   <Link
                     href={l.href}
                     onClick={() => setOpen(false)}
@@ -123,7 +143,11 @@ export default function Navbar({ name, available }: { name: string; available?: 
                 </motion.li>
               ))}
             </ul>
-            <Link href="/#contact" onClick={() => setOpen(false)} className="btn-accent mt-3 w-full">
+            <Link
+              href="/#contact"
+              onClick={() => setOpen(false)}
+              className="btn-accent mt-3 w-full"
+            >
               Hire me
             </Link>
           </motion.div>
