@@ -41,7 +41,7 @@ export const DEFAULT_SETTINGS: { site: SiteSettings; hero: HeroSettings; about: 
     roles: [
       {
         title: "Software Engineer",
-        accent: "#ff6333",
+        accent: "#22b8de",
         tagline: "From idea to production, end to end",
         description: "4+ years shipping fast, scalable products — Next.js on the front, Go and Node.js behind it, and AI in the loop to deliver faster without cutting corners.",
         image: "/images/johirul-islam-rasel-software-engineer.png",
@@ -92,14 +92,14 @@ export const DEFAULT_SETTINGS: { site: SiteSettings; hero: HeroSettings; about: 
     ],
   },
   about: {
-    heading: "An engineer who builds and ships — with AI as a force multiplier.",
-    bio: "I'm Johirul Islam Rasel, a software engineer from Bangladesh with 4+ years of experience building modern, scalable and high-performance web applications. I started on the frontend, fell in love with clean interfaces, and followed the data all the way down to APIs, databases and servers.\n\nToday I work across the stack — React and Next.js on the front, Go and Node.js on the back — and I treat AI tools like Claude Code and ChatGPT as part of my engineering workflow, not a shortcut around it. I care about honest estimates, readable code and products that are still fast a year after launch.",
+    heading: "A frontend engineer who turns designs into fast, accessible products.",
+    bio: "I'm Johirul Islam Rasel, a Frontend Software Engineer from Bangladesh with 4+ years of experience building React and Next.js applications — from design-system components to production releases used by real customers, including products for a Japanese company.\n\nI care about the details users feel: pixel-perfect UI, smooth motion, strong Core Web Vitals and accessibility. Because I also understand the APIs behind the screen (Node.js, Go), I integrate cleanly with backend teams — and I use AI tools like Claude Code to ship faster, with every change reviewed by me.",
     portrait: "/images/johirul-islam-rasel-software-engineer.png",
     facts: [
+      { label: "Role", value: "Frontend Software Engineer" },
+      { label: "Experience", value: "4+ years" },
+      { label: "Core stack", value: "React · Next.js · TypeScript" },
       { label: "Based in", value: "Bangladesh · GMT+6" },
-      { label: "Focus", value: "Full-stack product engineering" },
-      { label: "Languages", value: "Bengali, English" },
-      { label: "Currently", value: "B.Sc. in CSE at NUB" },
     ],
     principles: [
       "Learn by shipping — every new tool goes into a real project within a week.",
@@ -280,7 +280,7 @@ export const DEFAULT_COLLECTIONS: Partial<Record<CollectionKey, Row[]>> = {
     },
     {
       title: "This Portfolio & CMS", slug: "portfolio-cms", category: "Open Source", status: "Live", role: "Software Engineer", year: "2026",
-      published: true, order: 6, accent: "#ff6333",
+      published: true, order: 6, accent: "#1e88d2",
       summary: "The site you're on: a Next.js 16 portfolio with a schema-driven admin panel, JWT sessions, AI blog drafting and hardened forms.",
       problem: "Most portfolios are static — every update means a code change and a redeploy.",
       solution: "A single declarative schema generates the validators, the database layer and the admin forms, so every section — hero to resume — is editable from the dashboard.",

@@ -22,7 +22,7 @@ Format the "content" field as Markdown:
 - 900–1400 words, starting directly with the first paragraph (no H1 — the title is rendered separately).
 - Use ## and ### headings, bullet lists, and fenced code blocks with a language tag where code helps.
 - Emphasise 2–4 key phrases with ==double equals== highlights.
-- Colour at most one or two crucial phrases like {color:#ff6333}phrase{/color}.
+- Colour at most one or two crucial phrases like {color:#22b8de}phrase{/color}.
 - Include at least one callout block: a blockquote whose first line is [!TIP], [!NOTE] or [!WARNING].
 - End with a short takeaway section.
 

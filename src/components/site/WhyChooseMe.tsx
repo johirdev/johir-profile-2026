@@ -96,7 +96,7 @@ export default function WhyChooseMe({
                 .filter((r) => r.stage === col.stage)
                 .map((r, i) => (
                   <Reveal key={r._id} delay={ci * 0.1 + 0.1 + i * 0.06} className="panel panel-hover group flex gap-4 p-5">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border bg-elev text-accent transition group-hover:bg-accent group-hover:text-white">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border bg-elev text-accent transition group-hover:bg-accent group-hover:text-on-accent">
                       <TechIcon name={r.icon} mono className="h-5 w-5" />
                     </span>
                     <div>

@@ -28,7 +28,7 @@ export default async function BlogPostPage({ params }: Props) {
   const html = renderMarkdown(post.content);
   const toc = headings(post.content).filter((h) => h.depth === 2);
   const related = (await listPublic<BlogPost>("blogs", 20)).filter((p) => p.slug !== post.slug).slice(0, 3);
-  const accent = post.accent || "#ff6333";
+  const accent = post.accent || "#22b8de";
 
   const schema = {
     "@context": "https://schema.org",

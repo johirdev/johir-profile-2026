@@ -21,7 +21,8 @@ module.exports = {
         soft: c("--soft"),
         muted: c("--muted"),
         line: c("--line"),
-        accent: { DEFAULT: c("--accent"), ink: c("--accent-ink") },
+        accent: { DEFAULT: c("--accent"), from: c("--accent-from"), 2: c("--accent-2"), ink: c("--accent-ink") },
+        "on-accent": c("--on-accent"),
       },
       fontFamily: {
         sans: ["var(--font-grotesk)", "ui-sans-serif", "system-ui", "sans-serif"],

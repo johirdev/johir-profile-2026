@@ -1,6 +1,6 @@
 /* Seed articles. Markdown extensions supported by the renderer:
      ==text==                 → highlighted
-     {color:#ff6333}text{/color} → coloured text
+     {color:#22b8de}text{/color} → coloured text
      > [!TIP] / [!NOTE] / [!WARNING] → callout blocks */
 
 export const SEED_BLOGS = [
@@ -35,7 +35,7 @@ Each of these used to cost hours. Now they cost minutes plus a careful review.
 
 A model will happily write an endpoint that forgets authorisation, a migration that locks a production table, or a cache with no invalidation story. It doesn't *own* the system — it has never been paged at 3 a.m. because of it.
 
-That ownership is the engineer's job, and it is becoming {color:#ff6333}**the** job{/color}.
+That ownership is the engineer's job, and it is becoming {color:#22b8de}**the** job{/color}.
 
 ## The skills that matter more now
 
@@ -122,7 +122,7 @@ Images are usually the heaviest thing on the page. \`next/image\` handles respon
 
 ## 4. Validate at the boundary
 
-Every Route Handler and Server Action is a public API endpoint — {color:#ff6333}**even if only your UI calls it**{/color}. I validate every input with a schema (Zod) and return typed errors:
+Every Route Handler and Server Action is a public API endpoint — {color:#22b8de}**even if only your UI calls it**{/color}. I validate every input with a schema (Zod) and return typed errors:
 
 \`\`\`ts
 const Body = z.object({ email: z.string().email(), message: z.string().min(10).max(3000) });

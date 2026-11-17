@@ -20,7 +20,7 @@ function Stars({ value, size = "h-4 w-4" }: { value: number; size?: string }) {
 function Avatar({ r, size = 44 }: { r: Review; size?: number }) {
   const initials = r.name.split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
   return (
-    <span className="relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-gradient-to-br from-accent to-fuchsia-500 font-semibold text-white" style={{ width: size, height: size }}>
+    <span className="relative grid shrink-0 place-items-center overflow-hidden rounded-full bg-gradient-to-br from-accent-from to-accent-2 font-semibold text-white" style={{ width: size, height: size }}>
       {r.avatar ? <SmartImage src={r.avatar} alt="" fill sizes={`${size}px`} className="object-cover" /> : initials}
     </span>
   );

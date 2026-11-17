@@ -89,8 +89,8 @@ export default function FieldInput({ field, value, onChange }: { field: Field; v
       case "color":
         return (
           <div className="flex items-center gap-2">
-            <input type="color" value={/^#[0-9a-f]{6}$/i.test(str) ? str : "#ff6333"} onChange={(e) => onChange(e.target.value)} className="h-11 w-14 cursor-pointer rounded-lg border bg-bg p-1" />
-            <input id={id} value={str} onChange={(e) => onChange(e.target.value)} placeholder="#ff6333" maxLength={7} className="field font-mono" />
+            <input type="color" value={/^#[0-9a-f]{6}$/i.test(str) ? str : "#22b8de"} onChange={(e) => onChange(e.target.value)} className="h-11 w-14 cursor-pointer rounded-lg border bg-bg p-1" />
+            <input id={id} value={str} onChange={(e) => onChange(e.target.value)} placeholder="#22b8de" maxLength={7} className="field font-mono" />
             {str && (
               <button type="button" onClick={() => onChange("")} className="text-muted hover:text-fg" aria-label="Clear colour">
                 <X className="h-4 w-4" />

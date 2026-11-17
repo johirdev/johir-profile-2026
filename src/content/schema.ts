@@ -392,7 +392,7 @@ export const SETTINGS = {
         label: "Social links",
         type: "list",
         fields: [
-          { name: "platform", label: "Platform", type: "select", options: ["GitHub", "LinkedIn", "X", "Facebook", "YouTube", "Dribbble", "Medium", "Dev.to", "Stack Overflow"], required: true, half: true },
+          { name: "platform", label: "Platform", type: "select", options: ["GitHub", "LinkedIn", "X", "Facebook", "YouTube", "Dribbble", "Medium", "Dev.to", "Stack Overflow", "WhatsApp"], required: true, half: true },
           { name: "url", label: "URL", type: "url", required: true, half: true },
         ],
       },

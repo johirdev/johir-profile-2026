@@ -1,5 +1,5 @@
 import type { IconType } from "react-icons";
-import { FaDev, FaDribbble, FaFacebook, FaGithub, FaLinkedin, FaMedium, FaStackOverflow, FaXTwitter, FaYoutube } from "react-icons/fa6";
+import { FaDev, FaDribbble, FaFacebook, FaGithub, FaLinkedin, FaMedium, FaStackOverflow, FaWhatsapp, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { FiArrowUpRight } from "react-icons/fi";
 
 export const SOCIAL_ICONS: Record<string, IconType> = {
@@ -12,7 +12,8 @@ export const SOCIAL_ICONS: Record<string, IconType> = {
   Medium: FaMedium,
   "Dev.to": FaDev,
   "Stack Overflow": FaStackOverflow,
+  WhatsApp: FaWhatsapp,
 };
 
 export const socialIcon = (platform: string): IconType => SOCIAL_ICONS[platform] ?? FiArrowUpRight;
-export { FaGithub as GithubIcon };
+export { FaGithub as GithubIcon, FaWhatsapp as WhatsAppIcon };

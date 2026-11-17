@@ -40,7 +40,7 @@ export default function Faq({ faqs }: { faqs: FaqItem[] }) {
                 >
                   <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
                   <span className="flex-1 font-semibold sm:text-lg">{f.question}</span>
-                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition duration-300 ${isOpen ? "rotate-45 bg-accent text-white" : ""}`}>
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border transition duration-300 ${isOpen ? "rotate-45 bg-accent text-on-accent" : ""}`}>
                     <Plus className="h-4 w-4" />
                   </span>
                 </button>

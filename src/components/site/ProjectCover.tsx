@@ -4,7 +4,7 @@ import SmartImage from "@/components/ui/SmartImage";
 
 /** Real screenshot when one exists, otherwise a generated browser-window mock-up. */
 export default function ProjectCover({ project, priority = false, sizes = "(max-width: 1024px) 100vw, 640px" }: { project: Project; priority?: boolean; sizes?: string }) {
-  const accent = project.accent || "#ff6333";
+  const accent = project.accent || "#22b8de";
   const host = (() => {
     try {
       return project.liveUrl ? new URL(project.liveUrl).host : `${project.slug}.app`;

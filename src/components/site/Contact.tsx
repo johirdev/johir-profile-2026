@@ -1,11 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, CheckCircle2, Clock, Copy, Loader2, Mail, MapPin, MessageCircle, Phone, Send, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Clock, Copy, Loader2, Mail, MapPin, Phone, Send, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { SiteSettings } from "@/content/schema";
-import { socialIcon } from "@/lib/social";
+import { WhatsAppIcon, socialIcon } from "@/lib/social";
 import { usePublicForm } from "./usePublicForm";
 
 const SUBJECTS = ["Full-time role", "Freelance project", "Consulting", "Collaboration", "Just saying hi"] as const;
@@ -52,9 +52,9 @@ export default function Contact({ site }: { site: SiteSettings }) {
 
   const channels = [
     site.email && { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}`, action: copyEmail },
-    site.whatsapp && { icon: MessageCircle, label: "WhatsApp", value: site.phone || "Chat now", href: site.whatsapp },
+    site.whatsapp && { icon: WhatsAppIcon, label: "WhatsApp", value: site.phone || "Chat now", href: site.whatsapp },
     site.phone && { icon: Phone, label: "Phone", value: site.phone, href: `tel:${site.phone.replace(/\s/g, "")}` },
-  ].filter(Boolean) as { icon: typeof Mail; label: string; value: string; href: string; action?: () => void }[];
+  ].filter(Boolean) as { icon: React.ComponentType<{ className?: string }>; label: string; value: string; href: string; action?: () => void }[];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
@@ -89,7 +89,7 @@ export default function Contact({ site }: { site: SiteSettings }) {
 
         {channels.map((c) => (
           <div key={c.label} className="panel panel-hover group flex items-center gap-4 p-4">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-fg text-bg transition group-hover:bg-accent group-hover:text-white">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-fg text-bg transition group-hover:bg-accent group-hover:text-on-accent">
               <c.icon className="h-5 w-5" />
             </span>
             <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="min-w-0 flex-1">
@@ -106,9 +106,14 @@ export default function Contact({ site }: { site: SiteSettings }) {
           </div>
         ))}
 
-        {!!site.socials?.length && (
+        {(!!site.socials?.length || site.whatsapp) && (
           <div className="flex flex-wrap gap-2">
-            {site.socials.map((s) => {
+            {site.whatsapp && !site.socials?.some((s) => s.platform === "WhatsApp") && (
+              <a href={site.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-ghost !py-2.5">
+                <WhatsAppIcon className="h-4 w-4" /> WhatsApp
+              </a>
+            )}
+            {(site.socials ?? []).map((s) => {
               const Icon = socialIcon(s.platform);
               return (
                 <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer me" className="btn-ghost !py-2.5">

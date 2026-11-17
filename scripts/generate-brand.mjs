@@ -17,7 +17,7 @@ const APP = path.join(ROOT, "src", "app");
 const PORTRAIT_SRC = path.join(PUBLIC, "images", "johir-portrait.png");
 const LOGO_SRC = path.join(PUBLIC, "images", "logo-johirul-islam-rasel.png");
 
-const ACCENT = "#ff6333";
+const ACCENT = "#22b8de";
 
 const NAME = "Johirul Islam Rasel";
 const ROLE = "Software Engineer";

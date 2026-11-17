@@ -16,8 +16,12 @@
   --muted: 113 113 122;
   --line: 12 12 14;
   --line-alpha: 0.09;
-  --accent: 255 87 34;
-  --accent-ink: 196 55 10;
+  /* Brand: the JR logo gradient — cyan → sky → blue */
+  --accent-from: 24 178 214;
+  --accent: 14 150 200;
+  --accent-2: 22 106 186;
+  --accent-ink: 8 108 156;
+  --on-accent: 255 255 255;
   --grid: 12 12 14;
   color-scheme: light;
 }
@@ -31,8 +35,11 @@
   --muted: 120 120 132;
   --line: 255 255 255;
   --line-alpha: 0.09;
-  --accent: 255 99 51;
-  --accent-ink: 255 128 82;
+  --accent-from: 94 220 240;
+  --accent: 34 184 222;
+  --accent-2: 30 136 210;
+  --accent-ink: 110 214 240;
+  --on-accent: 3 17 26;
   --grid: 255 255 255;
   color-scheme: dark;
 }
@@ -95,10 +102,21 @@
     @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-primary {
-    @apply btn bg-fg text-bg hover:bg-accent hover:text-white;
+    @apply btn bg-fg text-bg hover:bg-accent hover:text-on-accent;
   }
   .btn-accent {
-    @apply btn bg-accent text-white hover:brightness-110;
+    @apply btn text-on-accent hover:brightness-110;
+    background-image: linear-gradient(120deg, rgb(var(--accent-from)), rgb(var(--accent)) 45%, rgb(var(--accent-2)));
+  }
+  /* The JR logo gradient as a fill / as text */
+  .bg-brand {
+    background-image: linear-gradient(120deg, rgb(var(--accent-from)), rgb(var(--accent)) 45%, rgb(var(--accent-2)));
+  }
+  .text-brand {
+    background-image: linear-gradient(100deg, rgb(var(--accent-from)), rgb(var(--accent)) 45%, rgb(var(--accent-2)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .btn-ghost {
     @apply btn border bg-card text-fg hover:border-accent/50;
@@ -108,7 +126,7 @@
     border-color: rgb(var(--line) / var(--line-alpha));
   }
   .text-gradient {
-    background: linear-gradient(100deg, rgb(var(--fg)) 10%, rgb(var(--accent)) 60%, rgb(var(--fg)) 110%);
+    background: linear-gradient(100deg, rgb(var(--accent-from)) 0%, rgb(var(--accent)) 45%, rgb(var(--accent-2)) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

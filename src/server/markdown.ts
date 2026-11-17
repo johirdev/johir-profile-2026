@@ -18,7 +18,7 @@ const highlight: TokenizerAndRendererExtension = {
   },
 };
 
-/** {color:#ff6333}text{/color} → <span style="color:#ff6333">text</span> */
+/** {color:#22b8de}text{/color} → <span style="color:#22b8de">text</span> */
 const color: TokenizerAndRendererExtension = {
   name: "color",
   level: "inline",

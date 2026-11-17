@@ -29,7 +29,7 @@ export default async function ProjectPage({ params }: Props) {
   const all = await listPublic<Project>("projects");
   const idx = all.findIndex((x) => x.slug === p.slug);
   const next = all[(idx + 1) % all.length];
-  const accent = p.accent || "#ff6333";
+  const accent = p.accent || "#22b8de";
 
   const facts = [
     ["Role", p.role],

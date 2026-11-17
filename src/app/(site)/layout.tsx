@@ -1,3 +1,4 @@
+import BackToTop from "@/components/site/BackToTop";
 import Footer from "@/components/site/Footer";
 import Navbar from "@/components/site/Navbar";
 import { homeGraph, jsonLd } from "@/lib/seo";
@@ -14,6 +15,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Navbar name={site.name} available={site.available} />
       <main id="content">{children}</main>
       <Footer site={site} />
+      <BackToTop />
     </>
   );
 }

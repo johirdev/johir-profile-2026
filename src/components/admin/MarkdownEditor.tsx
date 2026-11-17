@@ -4,7 +4,7 @@ import { Bold, Code, Eye, Heading2, Heading3, Highlighter, Italic, Link2, List, 
 import { useId, useState } from "react";
 import { api } from "./api";
 
-const SWATCHES = ["#ff6333", "#22d3ee", "#22c55e", "#a78bfa", "#f59e0b", "#ef4444", "#ec4899"];
+const SWATCHES = ["#22b8de", "#22d3ee", "#22c55e", "#a78bfa", "#f59e0b", "#ef4444", "#ec4899"];
 
 /**
  * Markdown with a toolbar for the portfolio's extensions:
@@ -148,7 +148,7 @@ export default function MarkdownEditor({ value, onChange }: { value: string; onC
           rows={22}
           spellCheck
           className="block w-full resize-y bg-transparent p-4 font-mono text-[13px] leading-relaxed outline-none"
-          placeholder="Write in Markdown… use ==highlight==, {color:#ff6333}colour{/color}, and > [!TIP] callouts."
+          placeholder="Write in Markdown… use ==highlight==, {color:#22b8de}colour{/color}, and > [!TIP] callouts."
         />
       ) : (
         <div className="min-h-[300px] p-6">

@@ -8,7 +8,7 @@ export const fmtDate = (iso?: string) =>
 
 /** Cover image, or a typographic cover tinted with the post's accent. */
 export function BlogCover({ post, className = "", priority = false }: { post: BlogPost; className?: string; priority?: boolean }) {
-  const accent = post.accent || "#ff6333";
+  const accent = post.accent || "#22b8de";
   return (
     <div className={`relative overflow-hidden rounded-xl border bg-elev ${className}`}>
       {post.cover ? (
