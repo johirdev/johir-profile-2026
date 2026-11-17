@@ -75,7 +75,7 @@ const nextConfig: NextConfig = {
       {
         // Belt-and-braces with robots.ts: a header Google honours even if the
         // admin area is reached through a link we did not anticipate.
-        source: "/admins/:path*",
+        source: "/admin/:path*",
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
         ],
@@ -116,18 +116,17 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      // Consolidate the old robots/manifest paths onto the route handlers so
-      // any existing crawler bookmark still resolves.
       { source: "/manifest.json", destination: "/manifest.webmanifest", permanent: true },
       { source: "/rss.xml", destination: "/feed.xml", permanent: true },
       { source: "/home", destination: "/", permanent: true },
-      { source: "/contact", destination: "/start-a-project", permanent: true },
-      // /project and /blog have no index page — only /project/[id] and
-      // /blog/[id] — so these aliases point at the home-page sections.
-      { source: "/projects", destination: "/#projects", permanent: true },
-      { source: "/project", destination: "/#projects", permanent: true },
-      { source: "/blogs", destination: "/#blog", permanent: true },
-      { source: "/blog", destination: "/#blog", permanent: true },
+      { source: "/admins/:path*", destination: "/admin", permanent: true },
+      { source: "/contact", destination: "/#contact", permanent: true },
+      { source: "/start-a-project", destination: "/#contact", permanent: true },
+      { source: "/qualifications", destination: "/#about", permanent: true },
+      { source: "/projects", destination: "/#work", permanent: false },
+      { source: "/project", destination: "/#work", permanent: true },
+      { source: "/project/:id", destination: "/#work", permanent: true },
+      { source: "/blogs", destination: "/blog", permanent: true },
     ];
   },
 };

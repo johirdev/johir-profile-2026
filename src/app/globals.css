@@ -2,924 +2,245 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   DESIGN TOKENS — DARK MODE (default)
-
-   Every colour is declared twice:
-     --x       ready-to-use rgb() string for plain CSS
-     --x-rgb   bare "r g b" channels so Tailwind can do text-accent/40
-   ============================================================ */
+/* ─────────────────────────────────────────────────────────────
+   Theme tokens — bare "r g b" channels so Tailwind's /opacity
+   modifiers work. Dark is true black; light is a soft paper white.
+   ───────────────────────────────────────────────────────────── */
 :root,
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* Backgrounds */
-  --bg-base-rgb: 6 13 26;
-  --bg-surface-rgb: 11 22 40;
-  --bg-card-rgb: 15 30 53;
-  --bg-card-hover-rgb: 21 37 64;
-  --bg-base: rgb(var(--bg-base-rgb));
-  --bg-surface: rgb(var(--bg-surface-rgb));
-  --bg-card: rgb(var(--bg-card-rgb));
-  --bg-card-hover: rgb(var(--bg-card-hover-rgb));
-  --bg-overlay: rgb(var(--bg-base-rgb) / 0.85);
-
-  /* Brand accent — four roles, so contrast is never guesswork:
-       accent        text / icons / links   (AA on the theme background)
-       accent-strong emphasis and hover
-       accent-solid  filled surfaces that carry --text-on-brand
-       accent-vivid  purely decorative fills (bars, dots, glows) */
-  --accent-rgb: 34 211 238;
-  --accent-strong-rgb: 103 232 249;
-  --accent-solid-rgb: 6 182 212;
-  --accent-vivid-rgb: 34 211 238;
-  --accent: rgb(var(--accent-rgb));
-  --accent-strong: rgb(var(--accent-strong-rgb));
-  --accent-solid: rgb(var(--accent-solid-rgb));
-  --accent-vivid: rgb(var(--accent-vivid-rgb));
-  --accent-soft: rgb(var(--accent-rgb) / 0.10);
-  --accent-line: rgb(var(--accent-rgb) / 0.20);
-  --accent-glow: rgb(var(--accent-rgb) / 0.15);
-  --accent-glow-strong: rgb(var(--accent-rgb) / 0.30);
-
-  /* Legacy aliases — older rules keep resolving */
-  --brand-cyan: var(--accent);
-  --brand-cyan-dim: var(--accent-solid);
-  --brand-cyan-glow: var(--accent-glow);
-  --brand-cyan-glow-strong: var(--accent-glow-strong);
-
-  /* Text */
-  --text-primary-rgb: 234 242 251;
-  --text-secondary-rgb: 154 175 199;
-  --text-muted-rgb: 111 137 166;
-  --text-primary: rgb(var(--text-primary-rgb));
-  --text-secondary: rgb(var(--text-secondary-rgb));
-  --text-muted: rgb(var(--text-muted-rgb));
-  --text-on-brand: #041019;
-
-  /* Lines */
-  --border-subtle: rgb(255 255 255 / 0.08);
-  --border-card: rgb(var(--accent-rgb) / 0.14);
-  --border-focus: rgb(var(--accent-rgb) / 0.55);
-  --line: rgb(255 255 255 / 0.08);
-  --line-rgb: 255 255 255;
-
-  /* Navbar */
-  --nav-bg: rgb(var(--bg-base-rgb) / 0.72);
-  --nav-bg-scrolled: rgb(var(--bg-base-rgb) / 0.94);
-  --nav-border: rgb(255 255 255 / 0.07);
-  --nav-link: rgb(var(--text-secondary-rgb));
-  --nav-link-hover: rgb(var(--text-primary-rgb));
-  --nav-toggle-bg: rgb(255 255 255 / 0.07);
-  --nav-toggle-hover: rgb(var(--accent-rgb) / 0.15);
-
-  /* Elevation — a four-step ramp used by the 3D surfaces */
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.50);
-  --shadow-2: 0 6px 20px -6px rgb(0 0 0 / 0.60);
-  --shadow-3: 0 18px 44px -12px rgb(0 0 0 / 0.70);
-  --shadow-4: 0 34px 80px -20px rgb(0 0 0 / 0.80);
-  --shadow-card: var(--shadow-2);
-  --shadow-glow: 0 0 34px rgb(var(--accent-rgb) / 0.16);
-  --shadow-btn: 0 8px 24px -8px rgb(var(--accent-rgb) / 0.55);
-
-  /* 3D surface treatment */
-  --sheen-top: rgb(255 255 255 / 0.07);
-  --sheen-bottom: rgb(0 0 0 / 0.25);
-  --rim-light: rgb(255 255 255 / 0.10);
-
-  /* Page ambience */
-  --wash-1: rgb(var(--accent-rgb) / 0.10);
-  --wash-2: rgb(99 102 241 / 0.08);
-  --grid-line: rgb(var(--accent-rgb) / 0.045);
-
-  /* Geometry and motion */
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 22px;
-  --radius-full: 9999px;
-  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out-3d: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* ============================================================
-   DESIGN TOKENS — LIGHT MODE
-
-   Contrast audit (WCAG 2.1, each token against the surface it
-   actually sits on):
-     text-primary   #0b1220 on #f4f7fc  17.5:1  AAA
-     text-secondary #475569 on #eaf0f8   6.7:1  AAA
-     text-muted     #59687c on #eaf0f8   5.0:1  AA
-     accent         #0d6b85 on #dfeef5   5.1:1  AA
-     accent-strong  #0b5c72 on #ffffff   7.5:1  AAA
-     white          #ffffff on #0d6b85   6.1:1  AA
-
-   Verified end-to-end by scripts/contrast-audit.mjs, which reads the
-   computed colour of every text node in the running page.
-
-   The old light theme painted cyan-400 (#22d3ee) on near-white,
-   which measures 1.7:1 — that is the washed-out look in the
-   screenshot. Nothing below drops under 4.5:1 for body text.
-   ============================================================ */
 [data-theme="light"] {
+  --bg: 250 250 249;
+  --elev: 244 244 243;
+  --card: 255 255 255;
+  --fg: 12 12 14;
+  --soft: 72 72 82;
+  --muted: 113 113 122;
+  --line: 12 12 14;
+  --line-alpha: 0.09;
+  --accent: 255 87 34;
+  --accent-ink: 196 55 10;
+  --grid: 12 12 14;
   color-scheme: light;
-
-  --bg-base-rgb: 244 247 252;
-  --bg-surface-rgb: 234 240 248;
-  --bg-card-rgb: 255 255 255;
-  --bg-card-hover-rgb: 248 251 255;
-  --bg-base: rgb(var(--bg-base-rgb));
-  --bg-surface: rgb(var(--bg-surface-rgb));
-  --bg-card: rgb(var(--bg-card-rgb));
-  --bg-card-hover: rgb(var(--bg-card-hover-rgb));
-  --bg-overlay: rgb(var(--bg-base-rgb) / 0.85);
-
-  --accent-rgb: 13 107 133;
-  --accent-strong-rgb: 11 92 114;
-  --accent-solid-rgb: 13 107 133;
-  --accent-vivid-rgb: 8 145 178;
-  --accent: rgb(var(--accent-rgb));
-  --accent-strong: rgb(var(--accent-strong-rgb));
-  --accent-solid: rgb(var(--accent-solid-rgb));
-  --accent-vivid: rgb(var(--accent-vivid-rgb));
-  --accent-soft: rgb(var(--accent-vivid-rgb) / 0.09);
-  --accent-line: rgb(var(--accent-vivid-rgb) / 0.28);
-  --accent-glow: rgb(var(--accent-vivid-rgb) / 0.12);
-  --accent-glow-strong: rgb(var(--accent-vivid-rgb) / 0.24);
-
-  --text-primary-rgb: 11 18 32;
-  --text-secondary-rgb: 71 85 105;
-  --text-muted-rgb: 89 104 124;
-  --text-primary: rgb(var(--text-primary-rgb));
-  --text-secondary: rgb(var(--text-secondary-rgb));
-  --text-muted: rgb(var(--text-muted-rgb));
-  --text-on-brand: #ffffff;
-
-  --border-subtle: rgb(15 23 42 / 0.09);
-  --border-card: rgb(15 23 42 / 0.10);
-  --border-focus: rgb(var(--accent-rgb) / 0.50);
-  --line: rgb(15 23 42 / 0.09);
-  --line-rgb: 15 23 42;
-
-  --nav-bg: rgb(255 255 255 / 0.78);
-  --nav-bg-scrolled: rgb(255 255 255 / 0.95);
-  --nav-border: rgb(15 23 42 / 0.08);
-  --nav-link: rgb(var(--text-secondary-rgb));
-  --nav-link-hover: rgb(var(--text-primary-rgb));
-  --nav-toggle-bg: rgb(15 23 42 / 0.05);
-  --nav-toggle-hover: rgb(var(--accent-rgb) / 0.10);
-
-  /* Light-mode elevation uses a blue-grey shadow, never pure black —
-     black shadows on a cool page read as dirt. */
-  --shadow-1: 0 1px 2px rgb(15 43 84 / 0.06);
-  --shadow-2: 0 6px 18px -6px rgb(15 43 84 / 0.14);
-  --shadow-3: 0 18px 40px -14px rgb(15 43 84 / 0.20);
-  --shadow-4: 0 34px 70px -22px rgb(15 43 84 / 0.26);
-  --shadow-card: var(--shadow-2);
-  --shadow-glow: 0 10px 34px -10px rgb(var(--accent-rgb) / 0.28);
-  --shadow-btn: 0 10px 24px -10px rgb(var(--accent-rgb) / 0.50);
-
-  --sheen-top: rgb(255 255 255 / 0.90);
-  --sheen-bottom: rgb(15 43 84 / 0.05);
-  --rim-light: rgb(255 255 255 / 0.85);
-
-  --wash-1: rgb(var(--accent-vivid-rgb) / 0.09);
-  --wash-2: rgb(99 102 241 / 0.07);
-  --grid-line: rgb(15 43 84 / 0.035);
 }
 
-/* Match the OS preference before the client store hydrates, so the
-   first paint is never the wrong theme. */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    color-scheme: light;
+[data-theme="dark"] {
+  --bg: 0 0 0;
+  --elev: 9 9 11;
+  --card: 14 14 17;
+  --fg: 244 244 245;
+  --soft: 170 170 180;
+  --muted: 120 120 132;
+  --line: 255 255 255;
+  --line-alpha: 0.09;
+  --accent: 255 99 51;
+  --accent-ink: 255 128 82;
+  --grid: 255 255 255;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
   }
-}
-
-/* ============================================================
-   BASE RESET AND BODY
-   ============================================================ */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 84px;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  position: relative;
-  background-color: var(--bg-base);
-  color: var(--text-primary);
-  line-height: 1.65;
-  font-size: 16px;
-  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Ambient page wash — keeps the light theme from reading as flat grey,
-   and gives the dark theme depth behind the 3D surfaces. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(1100px 620px at 82% -8%, var(--wash-1), transparent 62%),
-    radial-gradient(900px 560px at 6% 12%, var(--wash-2), transparent 60%);
-}
-
-/* ============================================================
-   Max Screen Size
-   ============================================================ */
-.max-width {
-  max-width: 1420px;
-  margin: 0 auto;
-}
-
-.borders {
-  border: 1px solid red !important;
-}
-
-/* ============================================================
-   TYPOGRAPHY
-   ============================================================ */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display), var(--font-body), sans-serif;
-  font-weight: 800;
-  line-height: 1.12;
-  color: var(--text-primary);
-  letter-spacing: -0.025em;
-  text-wrap: balance;
-}
-
-h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); }
-h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.3rem, 3vw, 2rem); }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1rem; }
-
-p {
-  color: var(--text-secondary);
-  line-height: 1.75;
-  text-wrap: pretty;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-strong {
-  color: var(--text-primary);
-  font-weight: 650;
-}
-
-code, kbd, samp, pre {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
-}
-
-/* Stats and percentages line up in columns instead of dancing */
-.tabular {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-.text-muted    { color: var(--text-muted); }
-.text-primary  { color: var(--text-primary); }
-
-/* Gradient headline treatment */
-.text-gradient {
-  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-strong) 48%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* ============================================================
-   3D SURFACE SYSTEM
-
-   Three layers do the work:
-     .scene-3d    establishes perspective on a parent
-     .surface-3d  gives a card lit edges plus the elevation ramp
-     .tilt-3d     reacts to the pointer via --rx / --ry set by <Tilt3D>
-   ============================================================ */
-.scene-3d {
-  perspective: 1200px;
-  perspective-origin: 50% 50%;
-}
-
-.surface-3d {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-2);
-  transform-style: preserve-3d;
-  transition:
-    transform 0.45s var(--ease-out-3d),
-    box-shadow 0.45s var(--ease-out-3d),
-    border-color var(--transition),
-    background var(--transition);
-}
-
-/* Top rim highlight and bottom shade — the cue that reads as solid. */
-.surface-3d::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--sheen-top) 0%,
-    transparent 32%,
-    transparent 68%,
-    var(--sheen-bottom) 100%
-  );
-  opacity: 0.9;
-}
-
-.surface-3d > * {
-  position: relative;
-}
-
-.surface-3d:hover {
-  border-color: var(--accent-line);
-  box-shadow: var(--shadow-3), var(--shadow-glow);
-}
-
-/* Lift on hover — the cheapest 3D cue, used on list cards. */
-.lift-3d {
-  transition: transform 0.4s var(--ease-out-3d), box-shadow 0.4s var(--ease-out-3d);
-  will-change: transform;
-}
-
-.lift-3d:hover {
-  transform: translateY(-6px) scale(1.012);
-  box-shadow: var(--shadow-4);
-}
-
-/* Pointer-driven tilt. --rx/--ry/--mx/--my are written by <Tilt3D>. */
-.tilt-3d {
-  --rx: 0deg;
-  --ry: 0deg;
-  --tz: 0px;
-  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz));
-  transition: transform 0.35s var(--ease-out-3d);
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.tilt-3d[data-active="true"] {
-  transition: transform 0.12s linear;
-}
-
-/* Specular sweep that follows the pointer across a tilted card. */
-.tilt-3d__sheen {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background: radial-gradient(
-    420px circle at var(--mx, 50%) var(--my, 50%),
-    rgb(var(--accent-vivid-rgb) / 0.16),
-    transparent 62%
-  );
-}
-
-.tilt-3d[data-active="true"] .tilt-3d__sheen {
-  opacity: 1;
-}
-
-/* Layer children at different depths inside a tilted card. */
-.depth-1 { transform: translateZ(18px); }
-.depth-2 { transform: translateZ(34px); }
-.depth-3 { transform: translateZ(56px); }
-
-/* Extruded text — reads as embossed in both themes. */
-.text-3d {
-  text-shadow:
-    0 1px 0 var(--rim-light),
-    0 2px 3px rgb(var(--line-rgb) / 0.16),
-    0 8px 24px rgb(var(--line-rgb) / 0.10);
-}
-
-/* Slow idle float for hero ornaments. */
-@keyframes float-3d {
-  0%, 100% { transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg); }
-  33%      { transform: translate3d(0, -12px, 0) rotateX(2.5deg) rotateY(-2deg); }
-  66%      { transform: translate3d(0, -5px, 0) rotateX(-1.5deg) rotateY(2.5deg); }
-}
-
-.float-3d { animation: float-3d 9s ease-in-out infinite; }
-
-/* ============================================================
-   NAVBAR
-   ============================================================ */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  height: 68px;
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--nav-border);
-  backdrop-filter: blur(18px) saturate(1.6);
-  -webkit-backdrop-filter: blur(18px) saturate(1.6);
-  transition: background var(--transition), box-shadow var(--transition), height var(--transition);
-}
-
-.navbar--scrolled {
-  background: var(--nav-bg-scrolled);
-  box-shadow: var(--shadow-2);
-  height: 62px;
-}
-
-.navbar__logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.navbar__logo-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--accent-solid);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1rem;
-  color: var(--text-on-brand);
-  letter-spacing: -0.03em;
-  flex-shrink: 0;
-}
-
-.navbar__logo-text {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.navbar__logo-accent { color: var(--accent); }
-
-.navbar__links {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  list-style: none;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.navbar__link {
-  position: relative;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--nav-link);
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  transition: color var(--transition), background var(--transition);
-  white-space: nowrap;
-}
-
-.navbar__link:hover {
-  color: var(--nav-link-hover);
-  background: var(--nav-toggle-bg);
-}
-
-.navbar__actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.navbar__theme-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-full);
-  background: var(--nav-toggle-bg);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background var(--transition), color var(--transition),
-    border-color var(--transition), transform var(--transition);
-}
-
-.navbar__theme-btn:hover {
-  background: var(--nav-toggle-hover);
-  color: var(--accent);
-  border-color: var(--border-focus);
-  transform: translateY(-1px);
-}
-
-.navbar__hire-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 22px;
-  border-radius: var(--radius-full);
-  background: var(--accent-solid);
-  color: var(--text-on-brand);
-  font-weight: 700;
-  font-size: 0.875rem;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  box-shadow: var(--shadow-btn);
-  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-}
-
-.navbar__hire-btn:hover {
-  background: var(--accent-strong);
-  box-shadow: 0 12px 30px -10px rgb(var(--accent-rgb) / 0.65);
-  transform: translateY(-2px);
-}
-
-.navbar__hire-btn:active { transform: translateY(0); }
-
-.navbar__mobile-toggle {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-sm);
-  background: var(--nav-toggle-bg);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background var(--transition);
-}
-
-.navbar__mobile-toggle:hover { background: var(--nav-toggle-hover); }
-
-.navbar__mobile-menu {
-  position: fixed;
-  top: 68px;
-  left: 0;
-  right: 0;
-  background: var(--nav-bg-scrolled);
-  border-bottom: 1px solid var(--nav-border);
-  display: flex;
-  flex-direction: column;
-  padding: 16px 24px 24px;
-  gap: 4px;
-  box-shadow: var(--shadow-3);
-  backdrop-filter: blur(18px) saturate(1.6);
-  -webkit-backdrop-filter: blur(18px) saturate(1.6);
-  animation: slideDown 0.2s ease;
-}
-
-.navbar__mobile-link {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--nav-link);
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  transition: color var(--transition), background var(--transition);
-}
-
-.navbar__mobile-link:hover {
-  color: var(--nav-link-hover);
-  background: var(--nav-toggle-bg);
-}
-
-.navbar__hire-btn--mobile {
-  margin-top: 12px;
-  border-radius: var(--radius-md);
-  padding: 14px 22px;
-  font-size: 1rem;
-}
-
-/* ============================================================
-   LAYOUT UTILITIES
-   ============================================================ */
-.section { padding: 96px 0; }
-.section--sm { padding: 64px 0; }
-
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-.section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-line);
-  padding: 6px 16px;
-  border-radius: var(--radius-full);
-  margin-bottom: 20px;
-}
-
-/* ============================================================
-   CARD COMPONENT
-   ============================================================ */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 28px;
-  box-shadow: var(--shadow-1);
-  transition: background var(--transition), box-shadow var(--transition),
-    border-color var(--transition), transform var(--transition);
-}
-
-.card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--accent-line);
-  box-shadow: var(--shadow-3), var(--shadow-glow);
-  transform: translateY(-3px);
-}
-
-/* ============================================================
-   STAT CARD
-   ============================================================ */
-.stat-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 32px 24px;
-  text-align: center;
-  box-shadow: var(--shadow-1);
-  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-}
-
-.stat-card:hover {
-  background: var(--bg-card-hover);
-  box-shadow: var(--shadow-3), var(--shadow-glow);
-  transform: translateY(-4px);
-}
-
-.stat-card__number {
-  font-family: var(--font-display), sans-serif;
-  font-size: 2.8rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-.stat-card__label {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 28px;
-  border-radius: var(--radius-full);
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all var(--transition);
-  border: none;
-  outline: none;
-}
-
-.btn:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 3px;
-}
-
-.btn--primary {
-  background: var(--accent-solid);
-  color: var(--text-on-brand);
-  box-shadow: var(--shadow-btn);
-}
-
-.btn--primary:hover {
-  background: var(--accent-strong);
-  box-shadow: 0 12px 30px -10px rgb(var(--accent-rgb) / 0.65);
-  transform: translateY(-2px);
-}
-
-.btn--outline {
-  background: transparent;
-  color: var(--accent);
-  border: 2px solid var(--accent);
-}
-
-.btn--outline:hover {
-  background: var(--accent-soft);
-  box-shadow: var(--shadow-glow);
-}
-
-.btn--ghost {
-  background: var(--nav-toggle-bg);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-subtle);
-}
-
-.btn--ghost:hover {
-  background: var(--bg-card);
-  color: var(--text-primary);
-}
-
-/* ============================================================
-   FORM ELEMENTS
-   ============================================================ */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.form-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.form-input,
-.form-textarea,
-.form-select {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 12px 16px;
-  font-size: 0.9rem;
-  font-family: inherit;
-  color: var(--text-primary);
-  transition: border-color var(--transition), box-shadow var(--transition);
-  outline: none;
-  width: 100%;
-}
-
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: var(--text-muted);
-}
-
-.form-input:focus,
-.form-textarea:focus,
-.form-select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 140px;
-  line-height: 1.65;
-}
-
-/* ============================================================
-   BADGE / TAG
-   ============================================================ */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  font-weight: 600;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border: 1px solid var(--accent-line);
-}
-
-/* ============================================================
-   DIVIDER
-   ============================================================ */
-.divider {
-  height: 1px;
-  background: var(--border-subtle);
-  margin: 0;
-}
-
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-surface); }
-::-webkit-scrollbar-thumb {
-  background: rgb(var(--accent-rgb) / 0.35);
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-/* ============================================================
-   SELECTION AND FOCUS
-   ============================================================ */
-::selection {
-  background: var(--accent-glow-strong);
-  color: var(--text-primary);
-}
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* ============================================================
-   ANIMATIONS
-   ============================================================ */
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgb(var(--accent-rgb) / 0.20); }
-  50%      { box-shadow: 0 0 42px rgb(var(--accent-rgb) / 0.42); }
-}
-
-.animate-fade-in { animation: fadeIn 0.5s ease forwards; }
-.animate-fade-up { animation: fadeUp 0.5s ease forwards; }
-.animate-glow    { animation: pulse-glow 3s ease infinite; }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 1024px) {
-  .navbar__links { display: none; }
-  .navbar__mobile-toggle { display: flex; }
-  .container { padding: 0 24px; }
-  .section { padding: 72px 0; }
-}
-
-@media (max-width: 768px) {
-  .navbar { padding: 0 20px; }
-  .container { padding: 0 16px; }
-  .section { padding: 56px 0; }
-  .stat-card__number { font-size: 2.2rem; }
-}
-
-/* Pointer-driven 3D is a desktop affordance only. */
-@media (hover: none) {
-  .tilt-3d { transform: none !important; }
-  .tilt-3d__sheen { display: none; }
-}
-
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-feature-settings: "ss01", "ss02";
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: rgb(var(--accent) / 0.25);
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  /* Tailwind's line colour needs the per-theme alpha applied by default */
   *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  ::before,
+  ::after {
+    border-color: rgb(var(--line) / var(--line-alpha));
   }
+}
 
-  .tilt-3d,
-  .float-3d { transform: none !important; }
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-8;
+  }
+  .hairline {
+    border-color: rgb(var(--line) / var(--line-alpha));
+  }
+  .panel {
+    @apply rounded-2xl border bg-card;
+    border-color: rgb(var(--line) / var(--line-alpha));
+  }
+  .panel-hover {
+    @apply transition-[border-color,transform,box-shadow] duration-300;
+  }
+  .panel-hover:hover {
+    border-color: rgb(var(--accent) / 0.35);
+    box-shadow: 0 20px 60px -30px rgb(var(--accent) / 0.35);
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-soft;
+    border-color: rgb(var(--line) / var(--line-alpha));
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full bg-accent;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-fg text-bg hover:bg-accent hover:text-white;
+  }
+  .btn-accent {
+    @apply btn bg-accent text-white hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn border bg-card text-fg hover:border-accent/50;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border bg-card px-2.5 py-1 text-xs font-medium text-soft;
+    border-color: rgb(var(--line) / var(--line-alpha));
+  }
+  .text-gradient {
+    background: linear-gradient(100deg, rgb(var(--fg)) 10%, rgb(var(--accent)) 60%, rgb(var(--fg)) 110%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgb(var(--grid) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--grid) / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent);
+  }
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .field {
+    @apply w-full rounded-xl border bg-bg px-4 py-3 text-sm text-fg outline-none transition placeholder:text-muted focus:border-accent/60 focus:ring-4 focus:ring-accent/10;
+    border-color: rgb(var(--line) / 0.12);
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Long-form article typography (blog + project case studies)
+   ───────────────────────────────────────────────────────────── */
+.prose-pf {
+  @apply text-[17px] leading-[1.8] text-soft;
+}
+.prose-pf > * + * {
+  margin-top: 1.15em;
+}
+.prose-pf h2 {
+  @apply mt-12 text-2xl font-bold tracking-tight text-fg sm:text-3xl;
+}
+.prose-pf h3 {
+  @apply mt-9 text-xl font-semibold text-fg;
+}
+.prose-pf h4 {
+  @apply mt-7 font-semibold text-fg;
+}
+.prose-pf a {
+  @apply font-medium text-accent-ink underline decoration-accent/40 underline-offset-4 hover:decoration-accent;
+}
+.prose-pf strong {
+  @apply font-semibold text-fg;
+}
+.prose-pf ul {
+  @apply list-disc space-y-2 pl-6 marker:text-accent;
+}
+.prose-pf ol {
+  @apply list-decimal space-y-2 pl-6 marker:text-muted;
+}
+.prose-pf mark {
+  @apply rounded px-1 py-0.5 text-fg;
+  background: rgb(var(--accent) / 0.22);
+}
+.prose-pf blockquote {
+  @apply rounded-r-xl border-l-4 border-accent bg-card px-5 py-4 italic text-fg;
+}
+.prose-pf blockquote.callout {
+  @apply not-italic;
+}
+.prose-pf blockquote.callout-tip {
+  border-left-color: #10b981;
+}
+.prose-pf blockquote.callout-warning {
+  border-left-color: #f59e0b;
+}
+.prose-pf blockquote.callout-note {
+  border-left-color: #3b82f6;
+}
+.prose-pf :not(pre) > code {
+  @apply rounded-md border bg-elev px-1.5 py-0.5 font-mono text-[0.85em] text-fg;
+}
+.prose-pf pre {
+  @apply overflow-x-auto rounded-2xl border bg-[#0b0b0e] p-5 font-mono text-[13.5px] leading-relaxed text-zinc-200;
+}
+.prose-pf table {
+  @apply w-full border-collapse text-sm;
+}
+.prose-pf th,
+.prose-pf td {
+  @apply border px-3 py-2 text-left;
+}
+.prose-pf th {
+  @apply bg-elev text-fg;
+}
+.prose-pf img {
+  @apply rounded-2xl border;
+}
+.prose-pf hr {
+  @apply my-10;
+}
+
+/* highlight.js — compact dark palette that reads on the black code card */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in { color: #ff7a4d; }
+.hljs-string,
+.hljs-attr { color: #a5e075; }
+.hljs-title,
+.hljs-title.function_ { color: #7cc7ff; }
+.hljs-comment { color: #6b7280; font-style: italic; }
+.hljs-number,
+.hljs-literal { color: #f5c26b; }
+.hljs-type,
+.hljs-variable { color: #c7a6ff; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Role accents are tuned for black; deepen them on the light theme for contrast. */
+[data-theme="light"] .role-word,
+[data-theme="light"] .role-tint {
+  filter: brightness(0.68) saturate(1.3);
 }

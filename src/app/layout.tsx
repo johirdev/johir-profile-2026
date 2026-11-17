@@ -1,36 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Sora, Inter, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
-import ThemeProvider, { THEME_BOOTSTRAP_SCRIPT } from "./lib/themeStore";
 import { sharedMetadata } from "@/lib/seo";
+import { THEME_SCRIPT } from "@/lib/theme";
 
-/**
- * Type scale — three faces, each with one job:
- *   Sora           headlines. Geometric, slightly technical, distinct at 48px+
- *   Inter          body and UI. The most legible sans at 13-16px
- *   JetBrains Mono metrics, percentages, stack names, code
- *
- * All three are variable fonts, self-hosted by next/font at build time —
- * no request ever reaches Google, and there is no layout shift.
- */
-const sora = Sora({
+const grotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-grotesk",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = sharedMetadata;
@@ -41,33 +20,27 @@ export const viewport: Viewport = {
   viewportFit: "cover",
   colorScheme: "dark light",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f7fc" },
-    { media: "(prefers-color-scheme: dark)", color: "#060d1a" },
+    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
   ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      dir="ltr"
-      suppressHydrationWarning
-      className={`${sora.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
-    >
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={grotesk.variable}>
       <head>
-        {/* Applies the stored theme before first paint. */}
-        <script
-          dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
-        />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
+        {/* Applies the saved theme before first paint — no flash. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
-      <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="min-h-screen" suppressHydrationWarning>
+        {children}
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            className:
+              "!bg-card !text-fg !border !border-[rgb(var(--line)/0.12)] !rounded-xl !font-sans",
+          }}
+        />
       </body>
     </html>
   );

@@ -11,35 +11,36 @@ export const SITE_URL = (
 
 export const AUTHOR_NAME = "Md. Johirul Islam Rasel";
 export const AUTHOR_SHORT = "Johirul Islam Rasel";
-export const AUTHOR_EMAIL = "johirul.islam.rasel@gmail.com";
-export const AUTHOR_ROLE = "Full-Stack Software Engineer";
+export const AUTHOR_EMAIL = "johirulislam574206@gmail.com";
+export const AUTHOR_ROLE = "Software Engineer";
+export const AUTHOR_TAGLINE = "Software Engineer — Frontend, Backend & AI";
 
 /**
  * The 1200x630 card that renders whenever the URL is pasted into Google,
  * WhatsApp, Facebook, LinkedIn, X, Slack or Discord. Built from
- * public/johir.png by scripts/generate-assets.mjs.
+ * the portrait by scripts/generate-brand.mjs.
  */
 export const OG_IMAGE = `${SITE_URL}/og.png`;
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
 
 /** Square portrait — what Google prefers for a person's rich result. */
-export const PORTRAIT_SQUARE = `${SITE_URL}/johir-square.png`;
+export const PORTRAIT_SQUARE = `${SITE_URL}/images/johirul-islam-rasel.jpg`;
 /** Original full-bleed portrait. */
-export const PORTRAIT_FULL = `${SITE_URL}/johir.png`;
+export const PORTRAIT_FULL = `${SITE_URL}/images/johirul-islam-rasel-software-engineer.png`;
 export const LOGO_IMAGE = `${SITE_URL}/icon-512.png`;
 
+/** Official profiles — emitted as sameAs so Google links them to this person. */
 export const SOCIAL_LINKS = [
-  "https://github.com/johirul-islam",
-  "https://linkedin.com/in/johirul-islam-rasel",
-  "https://twitter.com/johirul_rasel",
-  "https://www.facebook.com/johirul.islam.rasel",
+  "https://www.linkedin.com/in/johirul-islam-rasel/",
+  "https://www.facebook.com/raselcoders24",
+  "https://github.com/johirdev",
 ] as const;
 
-export const DEFAULT_TITLE = `${AUTHOR_SHORT} — ${AUTHOR_ROLE}`;
+export const DEFAULT_TITLE = `${AUTHOR_SHORT} — ${AUTHOR_TAGLINE}`;
 
 export const DEFAULT_DESCRIPTION =
-  "Johirul Islam Rasel is a Full-Stack Software Engineer with 4+ years of experience building fast, scalable web applications with React, Next.js, TypeScript, Node.js and Go. Available for freelance and full-time work.";
+  "Johirul Islam Rasel is a software engineer building fast, scalable products with React, Next.js, TypeScript, Go and Node.js — and an AI-first workflow with Claude Code, ChatGPT and n8n. Available for full-time and freelance work.";
 
 /**
  * Name variants matter more than generic keywords for a personal-brand
@@ -52,6 +53,11 @@ export const KEYWORDS = [
   "Johirul Rasel",
   "Johir",
   "Johir Coders24",
+  "Rasel Coders24",
+  "Johirul Islam Rasel Software Engineer",
+  "Johirul Islam Rasel portfolio",
+  "Johirul Islam Rasel LinkedIn",
+  "Johirul Islam Rasel GitHub",
   "Rasel Software Engineer",
   "Full-Stack Software Engineer",
   "React Developer Bangladesh",
@@ -113,12 +119,9 @@ export const sharedMetadata: Metadata = {
     images: ogImages,
     firstName: "Johirul",
     lastName: "Islam Rasel",
-    username: "johirul_rasel",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@johirul_rasel",
-    creator: "@johirul_rasel",
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     images: [{ url: OG_IMAGE, alt: `${AUTHOR_NAME} — ${AUTHOR_ROLE}` }],
@@ -161,6 +164,8 @@ export const personSchema = {
   name: AUTHOR_NAME,
   alternateName: [
     "Johirul Islam Rasel",
+    "Md Johirul Islam Rasel",
+    "Rasel",
     "Johirul Islam",
     "Johirul Rasel",
     "Johir",
@@ -171,15 +176,22 @@ export const personSchema = {
   mainEntityOfPage: { "@id": WEBSITE_ID },
   email: `mailto:${AUTHOR_EMAIL}`,
   /* Several aspect ratios — Google picks whichever fits the result type. */
-  image: {
-    "@type": "ImageObject",
-    "@id": `${SITE_URL}/#portrait`,
-    url: PORTRAIT_SQUARE,
-    contentUrl: PORTRAIT_SQUARE,
-    width: 1200,
-    height: 1200,
-    caption: `${AUTHOR_NAME} — ${AUTHOR_ROLE}`,
-  },
+  image: [
+    {
+      "@type": "ImageObject",
+      "@id": `${SITE_URL}/#portrait`,
+      url: PORTRAIT_SQUARE,
+      contentUrl: PORTRAIT_SQUARE,
+      width: 1200,
+      height: 1200,
+      caption: `${AUTHOR_SHORT} — ${AUTHOR_ROLE} from Bangladesh`,
+      creditText: AUTHOR_SHORT,
+      creator: { "@type": "Person", name: AUTHOR_SHORT },
+      copyrightNotice: AUTHOR_SHORT,
+    },
+    PORTRAIT_FULL,
+    OG_IMAGE,
+  ],
   sameAs: [...SOCIAL_LINKS],
   jobTitle: AUTHOR_ROLE,
   description: DEFAULT_DESCRIPTION,
@@ -273,8 +285,8 @@ export const breadcrumbSchema = (
 
 export const NAV_BREADCRUMBS = [
   { name: "Home", path: "/" },
-  { name: "Qualifications", path: "/qualifications" },
-  { name: "Start a Project", path: "/start-a-project" },
+  { name: "Projects", path: "/projects" },
+  { name: "Blog", path: "/blog" },
 ] as const;
 
 /** The full graph rendered on the home page. */
