@@ -322,7 +322,7 @@ function Stage({ role, index, accent }: { role: HeroRole; index: number; accent:
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-          className="panel absolute -right-1 top-[10%] flex max-w-[60%] items-center gap-2.5 px-3 py-2.5 shadow-xl sm:right-0"
+          className="panel absolute -right-1 top-[10%] hidden max-w-[60%] sm:flex items-center gap-2.5 px-3 py-2.5 shadow-xl sm:right-0"
         >
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl" style={{ background: `${accent}22` }}>
             <TechIcon name={role.icons?.[0]} className="h-5 w-5" />
